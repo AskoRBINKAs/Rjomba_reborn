@@ -7,3 +7,8 @@ cargo build --release
 ```
 
 # DONT START THIS ON YOUR MAIN SYSTEM
+
+## TODO:
+* Add debugger detection
+* Obfuscate binary
+* Implement optimization of recursive walkdir in threads
