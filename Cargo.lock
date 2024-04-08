@@ -76,6 +76,7 @@ dependencies = [
  "rust-crypto",
  "time",
  "walkdir",
+ "winapi",
 ]
 
 [[package]]
