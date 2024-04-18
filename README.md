@@ -9,5 +9,5 @@ cargo build --release
 # DONT START THIS ON YOUR MAIN SYSTEM
 
 ## TODO:
-* Obfuscate binary
 * Implement optimization of recursive walkdir in threads
+* Add retrieving keys from  telegram bot
